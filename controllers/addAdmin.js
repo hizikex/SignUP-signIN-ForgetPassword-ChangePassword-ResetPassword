@@ -1,9 +1,9 @@
-// const dotenv = require('dotenv')
+ // const dotenv = require('dotenv')
 require('dotenv').config()
 const adminModel = require('../models/addAdmin')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const sendEmail = require('../utils/email')
+const sendMail = require('../utils/adminEmail')
 
 exports.adminSignUp = async (req, res)=>{
 try {
@@ -33,9 +33,9 @@ try {
     createAdmin.token = myToken
     await createAdmin.save()
 
-    const verifyLink = `${req.protocol}://${req.get("host")}/api/userVerify/${createAdmin._id}`
+    const verifyLink = `${req.protocol}://${req.get("host")}/api/adminVerify/${createAdmin._id}`
     const message = `Thank you for registering us. Please click on this link ${verifyLink} to verify your account`;
-    sendEmail({
+    sendMail({
         email: createAdmin.email,
         subject: "Kindly Verify",
         message,
@@ -119,7 +119,7 @@ exports.adminLogIn = async(req,res) =>  {
     }
 }
 
-exports.UserVerify = async (req, res) => {
+exports.adminVerify = async (req, res) => {
     try{    
         const userid = req.params.userid
         const user = await adminModel.findById(userid)
@@ -145,7 +145,7 @@ exports.UserVerify = async (req, res) => {
 }
 
 
-exports.Forgotpassword = async (req, res) => {
+exports.adminForgotPassword = async (req, res) => {
     try{
         const {email} = req.body
         const userEmail = await adminModel.findOne({email})
@@ -159,7 +159,7 @@ exports.Forgotpassword = async (req, res) => {
 
         const VerifyLink = `${req.protocol}://${req.get("host")}/api/changepassword/${userEmail._id}/${myToken}`
         const message = `Use this link ${VerifyLink} to change your password`;
-        sendEmail({
+        adminSendEmail({
           email: userEmail.email,
           subject: "Reset Pasword",
           message,
@@ -177,7 +177,7 @@ exports.Forgotpassword = async (req, res) => {
     }
 }
 
-exports.resetpassword = async (req, res) => {
+exports.adminResetPassword = async (req, res) => {
     try {
         const {password} = req.body
         const id = req.params.id
@@ -200,7 +200,7 @@ exports.resetpassword = async (req, res) => {
     }
 }
 
-exports.changepassword = async (req, res) => {
+exports.adminChangePassword = async (req, res) => {
     try {
         const {password} = req.body
         const id = req.params.id

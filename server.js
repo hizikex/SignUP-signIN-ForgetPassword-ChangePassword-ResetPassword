@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require("express");
 const mongoose = require('mongoose')
+const fileUploader = require('express-fileupload')
 const Router = require('./routers/addAdmin')
 // const dotenv = require("dotenv");
 const app = express()
@@ -12,6 +13,11 @@ app.use(express.json());
 app.get('/', (req, res)=>{
     res.status(200).send("My Api is connected successfully")
 })
+
+app.use(fileUploader({
+    useTempFiles: true
+}))
+
 app.use('/api', Router)
 
 mongoose.set('strictQuery', true)
@@ -20,8 +26,9 @@ mongoose.connect(db, {
     useUnifiedTopology: true
 }).then(()=>{
     console.log("MongooseDB connected")
+}).then(()=>{
+    app.listen(process.env.PORT || 5555, ()=>{
+        console.log("Server is listening to PORT: 5555")
+    })
 })
 
-app.listen(process.env.PORT || 5555, ()=>{
-    console.log("Server is listening to PORT: 5555")
-})
