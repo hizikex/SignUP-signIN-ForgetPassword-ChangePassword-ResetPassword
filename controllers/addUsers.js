@@ -181,4 +181,25 @@ exports.UserForgotPassword = async (req, res) => {
                 message: e.message
             });
         }}
-    
+
+        exports.allUsers = async (req, res)=>{
+            try {
+                const getAll = await users.find()
+                if (getAll) {
+                    res.status(200).json({
+                        numberOfUsers: getAll.length,
+                        message: "All users",
+                        data: getAll
+                })
+                console.log(getAll)
+                } else {
+                    res.status(404).json({
+                        message: "No user in the database"
+                    });
+                }
+            } catch(err) {
+                res.status(400).json({
+                    message: err.message
+                });
+            }
+        }

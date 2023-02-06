@@ -1,7 +1,9 @@
 const express = require('express');
 const {adminSignUp, adminLogIn, adminVerify, adminForgotPassword, adminResetPassword, adminChangePassword} = require('../controllers/addAdmin');
-const {userSignUp, userlogIn, verifyUser, UserResetPassword, UserLogOut, UserForgotPassword} = require('../controllers/addUsers')
+const {userSignUp, userlogIn, verifyUser, UserResetPassword, UserLogOut, UserForgotPassword, allUsers} = require('../controllers/addUsers')
 const {newDoc, docVerify, docLogIn, docForgotPassword, docResetPassword, docLogout} = require('../controllers/addDoctor')
+const { addMessage, getMessages } = require("../controllers/messageController");
+
 
 const Router = express.Router();
 
@@ -15,6 +17,7 @@ Router.route('/adminchangepassword/:id/:token').post(adminResetPassword)
 Router.route('/adminchangepassword/:id').post(adminChangePassword)
 
 // user routes
+Router.route('/allusers').get(allUsers)
 Router.route('/usersignUp').post(userSignUp)
 Router.route('/userlogIn').post(userlogIn)
 Router.route('/userverify/:id').post(verifyUser)
@@ -29,5 +32,10 @@ Router.route('/login').post(docLogIn)
 Router.route('/forgotpassword').post(docForgotPassword)
 Router.route("/changepassword/:id/:token").post(docResetPassword)
 Router.route('/logout').post(docLogout)
+
+//message routes
+Router.post("/addmsg/", addMessage);
+Router.post("/getmsg/", getMessages);
+
 
 module.exports = Router
