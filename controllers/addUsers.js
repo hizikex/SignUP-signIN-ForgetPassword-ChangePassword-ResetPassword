@@ -182,24 +182,83 @@ exports.UserForgotPassword = async (req, res) => {
             });
         }}
 
-        exports.allUsers = async (req, res)=>{
-            try {
-                const getAll = await users.find()
-                if (getAll) {
-                    res.status(200).json({
-                        numberOfUsers: getAll.length,
-                        message: "All users",
-                        data: getAll
-                })
-                console.log(getAll)
-                } else {
-                    res.status(404).json({
-                        message: "No user in the database"
-                    });
-                }
-            } catch(err) {
-                res.status(400).json({
-                    message: err.message
-                });
-            }
+exports.allUsers = async (req, res)=>{
+    try {
+        const getAll = await users.find()
+        if (getAll) {
+            res.status(200).json({
+                numberOfUsers: getAll.length,
+                message: "All users",
+                    data: getAll
+        })
+        // console.log(getAll)
+        } else {
+            res.status(404).json({
+                message: "No user in the database"
+            });
         }
+    } catch(err) {
+        res.status(400).json({
+            message: err.message
+        });
+    }
+}
+
+
+exports.oneUser = async (req, res) => {
+    let id = req.params.id;
+    const aUser = await users.findById(id);
+    if (aUser) {
+        res.status(200).json({
+            message: "User with ID" + id,
+            data: aUser
+        })
+    } else {
+        res.status(404).json({
+            message: err.message
+        })
+    }
+
+}
+
+exports.deleteUser = async (req, res) => {
+    let id = req.params.id;
+    const deletedUser = await users.findByIdAndDelete(id);
+    if (deletedUser) {
+        res.status(200).json({
+            message: "Successfully deleted user with ID " + id,
+            data: deletedUser
+        })
+    } else {
+        res.status(404).json({
+            message: err.message
+        })
+    }
+
+}
+
+
+exports.updateUser = async (req, res) => {
+try {
+    const  {firstName, lastName, mobileNumber, dateOfBirth, gender, password, confirmPassword}  = req.body
+    let id = req.params.id;
+    const data = {firstName, lastName, mobileNumber, dateOfBirth, gender, password, confirmPassword} 
+    const updatedUser = await users.findByIdAndUpdate(id, data);
+    console.log(updatedUser)
+
+    if (updatedUser) {
+        res.status(200).json({
+            message: "Successfully Updated user with ID: " + id,
+            data: updatedUser
+        })
+    } else {
+        res.status(404).json({
+            message: "Update Failed"
+        })
+    }
+} catch (err) {
+    res.status(404).json({
+        message: err.message
+    })
+}
+}

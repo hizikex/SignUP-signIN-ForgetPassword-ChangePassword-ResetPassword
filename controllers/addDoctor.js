@@ -231,7 +231,8 @@ exports.docResetPassword = async (req, res) => {
 }
 
 exports.docLogout=async(req,res)=>{
-    try {const id=req.params.id;
+    try {
+        const id=req.params.id;
         const {email,password}=req.body
         const token=jwt.sign({
             id,
@@ -249,4 +250,79 @@ exports.docLogout=async(req,res)=>{
             {message:error.message}
         )
     }
-} 
+}
+
+exports.allDoctors = async (req, res) => {
+    const getAllDoctors = await doc.findOne();
+    if (getAllDoctors) {
+        res.status(200).json({
+            NumberOfDoctors: getAllDoctors.length,
+            message: "All doctors on the database",
+            data: getAllDoctors
+        })
+    } else {
+        res.status(404).json({
+            message: err.message
+        })
+    }
+
+}
+
+exports.oneDoctor = async (req, res) => {
+    let id = req.params.id;
+    const aDoctor = await doc.findById(id);
+    if (aDoctor) {
+        res.status(200).json({
+            NumberOfDoctors: aDoctor.length,
+            message: "Doctor with ID" + id,
+            data: aDoctor
+        })
+    } else {
+        res.status(404).json({
+            message: err.message
+        })
+    }
+
+}
+
+exports.deleteDoctor = async (req, res) => {
+    let id = req.params.id;
+    const deletedDoctor = await doc.findByIdAndDelete(id);
+    if (deletedDoctor) {
+        res.status(200).json({
+            message: "Sucessfully deleted user with ID: " + id,
+            data: deletedDoctor
+        })
+    } else {
+        res.status(404).json({
+            message: err.message
+        })
+    }
+
+}
+
+
+exports.updateDoctor = async (req, res) => {
+    const  {name, mobileNo,birthDate,gender,speciality,location} = req.body
+    let id = req.params.id;
+    const data = {
+        name,
+        mobileNo,
+        birthDate,
+        gender,
+        speciality,
+        speciality
+    }
+    const updatedDoctor = await doc.findByIdAndUpdate(id, data);
+    if (updatedDoctor) {
+        res.status(200).json({
+            message: "Successfully Updated Doctor with ID: " + id,
+            data: updatedDoctor
+        })
+    } else {
+        res.status(404).json({
+            message: err.message
+        })
+    }
+
+}

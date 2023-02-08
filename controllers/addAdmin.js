@@ -225,3 +225,84 @@ exports.adminChangePassword = async (req, res) => {
         })
     }
 }
+
+exports.allAdmins = async (req, res)=>{
+    try {
+        const getAllAdmins = await adminModel.find()
+        if (getAllAdmins) {
+            res.status(200).json({
+                numberOfadmin: getAllAdmins.length,
+                message: "All Admins",
+                    data: getAllAdmins
+        })
+        // console.log(getAll)
+        } else {
+            res.status(404).json({
+                message: "No admin in the database"
+            });
+        }
+    } catch(err) {
+        res.status(400).json({
+            message: err.message
+        });
+    }
+}
+
+
+exports.oneAdmin = async (req, res) => {
+    let id = req.params.id;
+    const anAdmin = await adminModel.findById(id);
+    if (anAdmin) {
+        res.status(200).json({
+            message: "An Admin with ID" + id,
+            data: anAdmin
+        })
+    } else {
+        res.status(404).json({
+            message: err.message
+        })
+    }
+
+}
+
+exports.deleteAdmin = async (req, res) => {
+    let id = req.params.id;
+    const deletedAdmin = await adminModel.findByIdAndDelete(id);
+    if (deletedAdmin) {
+        res.status(200).json({
+            message: "Successfully deleted admin with ID " + id,
+            data: deletedAdmin
+        })
+    } else {
+        res.status(404).json({
+            message: err.message
+        })
+    }
+
+}
+
+
+exports.updateAdmin = async (req, res) => {
+    const  {name, mobileNo,birthDate,gender,speciality,location} = req.body
+    let id = req.params.id;
+    const data = {
+        name,
+        mobileNo,
+        birthDate,
+        gender,
+        speciality,
+        location
+    }
+    const updatedAdmin = await adminModel.findByIdAndUpdate(id, {data});
+    if (updatedAdmin) {
+        res.status(200).json({
+            message: "Successfully Updated admin with ID: " + id,
+            data: updatedAdmin
+        })
+    } else {
+        res.status(404).json({
+            message: err.message
+        })
+    }
+
+}
