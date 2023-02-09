@@ -262,7 +262,7 @@ exports.allDoctors = async (req, res) => {
         })
     } else {
         res.status(404).json({
-            message: err.message
+            message: "Can't find all doctors in the database"
         })
     }
 
@@ -279,7 +279,7 @@ exports.oneDoctor = async (req, res) => {
         })
     } else {
         res.status(404).json({
-            message: err.message
+            message: "Unable to find Doctor with ID" + id
         })
     }
 
@@ -295,7 +295,7 @@ exports.deleteDoctor = async (req, res) => {
         })
     } else {
         res.status(404).json({
-            message: err.message
+            message: "Unable to delete user with ID: " + id,
         })
     }
 
@@ -321,7 +321,7 @@ exports.updateDoctor = async (req, res) => {
         })
     } else {
         res.status(404).json({
-            message: err.message
+            message: "Unable to Update Doctor with ID: " + id,
         })
     }
 

@@ -215,7 +215,7 @@ exports.oneUser = async (req, res) => {
         })
     } else {
         res.status(404).json({
-            message: err.message
+            message: "Unable to find User with ID" + id,
         })
     }
 
@@ -231,7 +231,7 @@ exports.deleteUser = async (req, res) => {
         })
     } else {
         res.status(404).json({
-            message: err.message
+            message: "Failed to delete user with ID " + id,
         })
     }
 

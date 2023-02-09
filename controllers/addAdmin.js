@@ -259,7 +259,7 @@ exports.oneAdmin = async (req, res) => {
         })
     } else {
         res.status(404).json({
-            message: err.message
+            message: "Unable to find Admin with ID" + id,
         })
     }
 
@@ -275,7 +275,7 @@ exports.deleteAdmin = async (req, res) => {
         })
     } else {
         res.status(404).json({
-            message: err.message
+            message: "Unable to delete Admin with ID" + id,
         })
     }
 
