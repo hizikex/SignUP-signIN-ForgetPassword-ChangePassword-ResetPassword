@@ -115,7 +115,6 @@ const hash = bcryptjs.hashSync(password, salt);
         res.status(201).json({
             message: "Doc  created",
             data:createDoc
-           
         })
     }catch(err){
         res.status(400).json({
