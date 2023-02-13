@@ -34,9 +34,9 @@ Router.route('/userlogOut').post(UserLogOut)
 
 //doctors routes
 Router.get('/alldoctors', allDoctors)
-Router.get('/doctor', oneDoctor)
-Router.delete('/doctor', deleteDoctor)
-Router.patch('/doctors', updateDoctor)
+Router.get('/doctor/:id', oneDoctor)
+Router.delete('/doctor/:id', deleteDoctor)
+Router.patch('/doctors/:id', updateDoctor)
 Router.route('/sign').post(newDoc)
 Router.route('/docVerify/:docid').post(docVerify)
 Router.route('/login').post(docLogIn)

@@ -29,30 +29,32 @@ mongoose.connect(db, {
     useUnifiedTopology: true
 }).then(()=>{
     console.log("MongooseDB connected")
-})
-
-const server = app.listen(process.env.PORT || 5555, ()=>{
+}).then(()=>{
+  app.listen(process.env.PORT || 5555, ()=>{
     console.log("Server is listening to PORT: 5555")
 })
+})
 
-const io = socket(server, {
-    cors: {
-      origin: "http://localhost:5555",
-      credentials: true,
-    },
-  });
+// const server =
 
-global.onlineUsers = new Map();
-io.on("connection", (socket) => {
-  global.chatSocket = socket;
-  socket.on("add-user", (userId) => {
-    onlineUsers.set(userId, socket.id);
-  });
+// const io = socket(server, {
+//     cors: {
+//       origin: "http://localhost:5555",
+//       credentials: true,
+//     },
+//   });
 
-  socket.on("send-msg", (data) => {
-    const sendUserSocket = onlineUsers.get(data.to)
-    if (sendUserSocket) {
-      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
-    }
-  });
-});
+// global.onlineUsers = new Map();
+// io.on("connection", (socket) => {
+//   global.chatSocket = socket;
+//   socket.on("add-user", (userId) => {
+//     onlineUsers.set(userId, socket.id);
+//   });
+
+//   socket.on("send-msg", (data) => {
+//     const sendUserSocket = onlineUsers.get(data.to)
+//     if (sendUserSocket) {
+//       socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+//     }
+//   });
+// });

@@ -71,6 +71,10 @@ location: {
         url:{ type: String
         }
     },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
     token: {
         type: String,
     },
