@@ -10,8 +10,6 @@ dotenv.config({path: './config/config.env'})
 exports.newDoc= async (req, res)=>{
     const  {name, email,mobileNo,birthDate,gender,speciality,location,password} = req.body
     try{
-      
-    
     const certificateUpload= await
            cloudinary.uploader.upload(
             req.files.certificateUpload.tempFilePath,
@@ -23,12 +21,12 @@ exports.newDoc= async (req, res)=>{
               }
             }
           );
-const licennse= await
+const license= await
 cloudinary.uploader.upload(
- req.files.licennse.tempFilePath,
- (err, licennse) => {
+ req.files.license.tempFilePath,
+ (err, license) => {
    try {
-     return licennse;
+     return license;
    } catch (err) {
      return err;
    }
@@ -76,10 +74,11 @@ const hash = bcryptjs.hashSync(password, salt);
             public_id:certificateUpload.public_id,
             url:certificateUpload.secure_url
         },
-        licennse:
+        license:
         {
-            public_id:licennse.public_id,
-            url:licennse.secure_url
+            public_id:license.public_id,
+            url:license
+        .secure_url
         },
         proofOfId:{
             public_id:proofOfId.public_id,
@@ -180,7 +179,7 @@ exports.docForgotPassword = async (req, res) => {
     try{
         const {email} = req.body
         // let id = req.params.id
-        const docEmail = await doc.findOne(email)
+        const docEmail = await doc.findOne({email})
         console.log(docEmail)
         if(!docEmail) return  res.status(404).json({ message: "No Email" })
         const myToken = jwt.sign({

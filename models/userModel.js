@@ -1,11 +1,7 @@
 const mongoose = require ('mongoose');
 
 const userModel = new mongoose.Schema({
-    firstName: {
-        type: String,
-        required: [true, 'FirstName is required']
-    },
-    lastName: {
+    name: {
         type: String,
         required: [true, 'LastName is required']
     },
@@ -14,7 +10,7 @@ const userModel = new mongoose.Schema({
         required: [true, 'Email is required'],
         unique: true
     },
-    mobileNumber: {
+    mobileNo: {
         type: String,
         required: [true, 'mobileNumber is required']
     },
@@ -30,9 +26,12 @@ const userModel = new mongoose.Schema({
         type: String,
         required: [true, 'Password is required']
     },
-    confirmPassword: {
-        type: String,
-        required: [true, 'confirmPassword is required']
+    profilePicture: {
+        public_id: {
+            type: String,
+             },
+            url:{ type: String
+            }
     },
     token: {
         type: String,

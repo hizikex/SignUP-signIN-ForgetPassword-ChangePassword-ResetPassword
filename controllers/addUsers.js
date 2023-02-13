@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+const cloudinary=require("../utils/cloudinary")
 const users = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -7,19 +7,28 @@ const userSendEmail = require('../utils/adminEmail')
 
 exports.userSignUp = async(req,res) => {
     try{
-        const {firstName, lastName, email, mobileNumber, dateOfBirth, gender, password, confirmPassword} = req.body;
+        const profilePicture = await
+        cloudinary.uploader.upload(
+         req.files.profilePicture.tempFilePath,
+         (err, profilePicture) => {
+           try {
+             return profilePicture;
+           } catch (err) {
+             return err;
+           }
+         }
+       );
+        const {name, email, mobileNo, dateOfBirth, gender, password} = req.body;
         const salted =  bcrypt.genSaltSync(10);
         const hashed =  bcrypt.hashSync(password, salted);
 
         const datas = {
-            firstName, 
-            lastName, 
+            name, 
             email, 
-            mobileNumber, 
+            mobileNo, 
             dateOfBirth,
             gender,
-            password:hashed,
-            confirmPassword: hashed
+            password:hashed
         }
 
         const createdUser = new users(datas);
@@ -58,27 +67,24 @@ exports.userSignUp = async(req,res) => {
 
 
 
-exports.userlogIn = async (req,res) => {
+exports.userLogIn = async(req,res) =>  {
     try{
-        const {email,password} = req.body;
-        const crossCheck = await users.findOne({email:email})
-        if(!crossCheck)return res.status(400).json({message: "No such email in the database"});
-        const checkPassword = await bcrypt.compare(password, crossCheck.password)
-        if(!checkPassword) return res.status(400).json({message:"Not found"})
+        const {email,password} = req.body
+        const check = await users.findOne({email:email})
+        if(!check) return res.status(404).json({message:'Email not  registered'})
+        const isPassword =await bcrypt.compare(password,check.password)
+        if(!isPassword) return res.status(404).json({message:'Email or password incorrect'})
 
-        const userToken = jwt.sign({
-            id:crossCheck._id,
-            email:crossCheck.email,
-            password:crossCheck.password
-        },process.env.JWT_TOKEN, {expiresIn:"1d"});
-         
-        users.token = userToken
-        await crossCheck.save();
+        const myToken = jwt.sign({
+            id:check._id,
+            password: check.password}, process.env.JWTTOKEN, {expiresIn: "1d"})
 
-        res.status(201).json({
-            message: 'Successfully loggedin',
-            data:crossCheck
-        })
+        check.token = myToken 
+        await check.save()
+         res.status(201).json({
+            message:"Successful",
+            data:check
+         })
     }catch(e){
         res.status(400).json({
             message:e.message
@@ -120,9 +126,9 @@ exports.UserForgotPassword = async (req, res) => {
         const myToken = jwt.sign({
             id:userEmail._id,
             IsAdmin:userEmail.isAdmin},
-            process.env.JWT_TOKEN, {expiresIn: "1d"})
+            process.env.JWTTOKEN, {expiresIn: "1d"})
 
-        const VerifyLink = `${req.protocol}://${req.get("host")}/api/forgotPassword/${userEmail._id}/${myToken}`
+        const VerifyLink = `${req.protocol}://${req.get("host")}/api/userchangepassword/${userEmail._id}/${myToken}`
         const message = `Use this link ${VerifyLink} to change your password`;
         userSendEmail({
           email: userEmail.email,
@@ -143,9 +149,10 @@ exports.UserForgotPassword = async (req, res) => {
         try {
             const {password} = req.body
             const id = req.params.id
-            const passwordchange = await users.findById(id)
-            const salt = await bcrypt.genSaltSync(10);
-            const hash = await bcrypt.hashSync(password, salt);
+            const passwordchange = await users.findOne({id})
+            console.log(passwordchange)
+            const salt = await bcrypt.genSalt(10);
+            const hash = await bcrypt.hash(password, salt);
     
             await users.findByIdAndUpdate(passwordchange._id,{
                 password: hash
@@ -240,9 +247,9 @@ exports.deleteUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
 try {
-    const  {firstName, lastName, mobileNumber, dateOfBirth, gender, password, confirmPassword}  = req.body
+    const  {name, mobileNo, dateOfBirth, gender, password, confirmPassword}  = req.body
     let id = req.params.id;
-    const data = {firstName, lastName, mobileNumber, dateOfBirth, gender, password, confirmPassword} 
+    const data = {name, mobileNo, dateOfBirth, gender, password, confirmPassword} 
     const updatedUser = await users.findByIdAndUpdate(id, data);
     console.log(updatedUser)
 

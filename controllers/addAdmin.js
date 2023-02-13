@@ -1,6 +1,6 @@
  // const dotenv = require('dotenv')
 require('dotenv').config()
-const adminModel = require('../models/addAdmin')
+// const adminModel = require('../models/addAdmin')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const sendMail = require('../utils/adminEmail')

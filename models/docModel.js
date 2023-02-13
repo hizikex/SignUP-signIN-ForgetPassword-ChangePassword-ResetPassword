@@ -51,7 +51,7 @@ location: {
     url:{ type: String,
         required: [true, "Certificate mut be uploaded"]}},
 
-    licennse: {
+    license: {
         public_id: {
             type: String,
              },
@@ -70,6 +70,10 @@ location: {
              },
         url:{ type: String
         }
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     },
     token: {
         type: String,
