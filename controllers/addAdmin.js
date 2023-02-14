@@ -96,10 +96,12 @@ try {
 exports.adminLogIn = async(req,res) =>  {
     try{
         const {email,password} = req.body
-        const check = await adminModel.findOne({email:email})
-        if(!check) return res.status(404).json({message:'Not found'})
+        // const id = req.params.id;
+        const check = await adminModel.findOne({email: email})
+        console.log(check)
+        if(!check) res.status(404).json({message:'Not found'})
         const isPassword =await bcrypt.compare(password,check.password)
-        if(!isPassword) return res.status(404).json({message:'Email or password incorrect'})
+        if(!isPassword) res.status(404).json({message:'Email or password incorrect'})
 
         const myToken = jwt.sign({
             id:check._id,
@@ -229,12 +231,15 @@ exports.adminChangePassword = async (req, res) => {
 exports.allAdmins = async (req, res)=>{
     try {
         const getAllAdmins = await adminModel.find()
+        
         if (getAllAdmins) {
+            // const {token,password,...others}=getAllAdmins._id
+            console.log(getAllAdmins)
             res.status(200).json({
                 numberOfadmin: getAllAdmins.length,
                 message: "All Admins",
                     data: getAllAdmins
-        })
+        }) 
         // console.log(getAll)
         } else {
             res.status(404).json({

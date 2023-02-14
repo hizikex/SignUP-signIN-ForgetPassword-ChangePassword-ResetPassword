@@ -27,8 +27,6 @@ gender: {
         type: String,
         required: [true, "speciality is required"]
     },
-   
-
 location: {
         type: String,
         required: [true, "location is required"]
@@ -75,6 +73,14 @@ location: {
         type: Boolean,
         default: false
     },
+    sentMessages: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Messages'
+      }],
+      recievedMessages: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Messages'
+      }],
     token: {
         type: String,
     },

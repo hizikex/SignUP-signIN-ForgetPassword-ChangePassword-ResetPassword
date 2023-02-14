@@ -33,6 +33,14 @@ const userModel = new mongoose.Schema({
             url:{ type: String
             }
     },
+    sentMessages: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Messages'
+      }],
+      recievedMessages: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Messages'
+      }],
     token: {
         type: String,
     },

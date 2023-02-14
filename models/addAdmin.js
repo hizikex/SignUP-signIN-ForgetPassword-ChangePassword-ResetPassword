@@ -47,4 +47,4 @@ const userSchema = new mongoose.Schema({
 
 const adminModel = mongoose.model('health360 admin', userSchema)
 
-module.exports = adminModel
+module.exports = adminModel  

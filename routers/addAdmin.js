@@ -3,6 +3,8 @@ const express = require('express');
 const {userSignUp, userLogIn, verifyUser, UserResetPassword, UserLogOut, UserForgotPassword, allUsers, oneUser, deleteUser, updateUser} = require('../controllers/addUsers')
 const {newDoc, docVerify, docLogIn, docForgotPassword, docResetPassword, docLogout, allDoctors, oneDoctor, deleteDoctor, updateDoctor} = require('../controllers/addDoctor')
 const { addMessage, getMessages } = require("../controllers/messageController");
+const { IsAdminAuth } = require('../utils/authorization');
+
 
 
 const Router = express.Router();
@@ -33,9 +35,9 @@ Router.route('/userchangepassword/:id/:token').post(UserResetPassword)
 Router.route('/userlogOut').post(UserLogOut)
 
 //doctors routes
-Router.get('/alldoctors', allDoctors)
+Router.get('/alldoctors', IsAdminAuth, allDoctors)
 Router.get('/doctor', oneDoctor)
-Router.delete('/doctor', deleteDoctor)
+Router.delete('/doctor', IsAdminAuth, deleteDoctor)
 Router.patch('/doctors', updateDoctor)
 Router.route('/signup').post(newDoc)
 Router.route('/docVerify/:docid').post(docVerify)
