@@ -28,7 +28,12 @@ exports.userSignUp = async(req,res) => {
             mobileNo, 
             dateOfBirth,
             gender,
-            password:hashed
+            password:hashed,
+            profilePicture:
+            {
+                public_id:profilePicture.public_id,
+                url:profilePicture.secure_url
+            },
         }
 
         const createdUser = new users(datas);
