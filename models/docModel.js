@@ -45,10 +45,10 @@ location: {
       certificateUpload:{
     public_id: {
         type: String,
-        required: [true, "Certificate mut be uploaded"],
+        // required: [true, "Certificate mut be uploaded"],
          },
     url:{ type: String,
-        required: [true, "Certificate mut be uploaded"]}},
+        }},
 
     license: {
         public_id: {
