@@ -3,7 +3,7 @@ const cors = require("cors")
 const express = require("express");
 const socket = require("socket.io");
 const mongoose = require('mongoose')
-const fileUploader = require('express-fileupload')
+// const fileUploader = require('express-fileupload')
 const Router = require('./routers/addAdmin')
 // const dotenv = require("dotenv");
 const app = express()
@@ -17,9 +17,9 @@ app.get('/', (req, res)=>{
     res.status(200).send("My Api is connected successfully")
 })
 
-app.use(fileUploader({
-    useTempFiles: true
-}))
+// app.use(fileUploader({
+//     useTempFiles: true
+// }))
 
 app.use('/api', Router)
 

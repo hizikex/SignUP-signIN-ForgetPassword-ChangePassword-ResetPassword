@@ -27,13 +27,13 @@ const userModel = new mongoose.Schema({
         type: String,
         required: [true, 'Password is required']
     },
-    profilePicture: {
-        public_id: {
-            type: String,
-             },
-            url:{ type: String
-            }
-    },
+    // profilePicture: {
+    //     public_id: {
+    //         type: String,
+    //          },
+    //         url:{ type: String
+    //         }
+    // },
     sentMessages: [{
         type: Schema.Types.ObjectId,
         ref: 'Messages'

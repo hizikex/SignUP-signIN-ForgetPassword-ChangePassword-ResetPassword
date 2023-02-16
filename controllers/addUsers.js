@@ -7,17 +7,17 @@ const userSendEmail = require('../utils/adminEmail')
 
 exports.userSignUp = async(req,res) => {
     try{
-        const profilePicture = await
-        cloudinary.uploader.upload(
-         req.files.profilePicture.tempFilePath,
-         (err, profilePicture) => {
-           try {
-             return profilePicture;
-           } catch (err) {
-             return err;
-           }
-         }
-       );
+    //     const profilePicture = await
+    //     cloudinary.uploader.upload(
+    //      req.files.profilePicture.tempFilePath,
+    //      (err, profilePicture) => {
+    //        try {
+    //          return profilePicture;
+    //        } catch (err) {
+    //          return err;
+    //        }
+    //      }
+    //    );
         const {name, email, mobileNo, dateOfBirth, gender, password} = req.body;
         const salted =  bcrypt.genSaltSync(10);
         const hashed =  bcrypt.hashSync(password, salted);
@@ -29,11 +29,11 @@ exports.userSignUp = async(req,res) => {
             dateOfBirth,
             gender,
             password:hashed,
-            profilePicture:
-            {
-                public_id:profilePicture.public_id,
-                url:profilePicture.secure_url
-            },
+            // profilePicture:
+            // {
+            //     public_id:profilePicture.public_id,
+            //     url:profilePicture.secure_url
+            // },
         }
 
         const createdUser = new users(datas);

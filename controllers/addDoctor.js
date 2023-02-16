@@ -5,9 +5,10 @@ const cloudinary=require("../utils/cloudinary")
 const docSendEmail = require('../utils/adminEmail')
 const dotenv = require('dotenv')
 dotenv.config({path: './config/config.env'})
-//const postImageUploader=require("../docUtil/multer")
+// const imageUploader = require("../utils/cloudinary")
 
 exports.newDoc= async (req, res)=>{
+    // const images = req.files.map(file => file.filename);
     const  {name, email,mobileNo,birthDate,gender,speciality,location,password} = req.body
     try{
     const certificateUpload= await
@@ -110,10 +111,9 @@ const hash = bcryptjs.hashSync(password, salt);
           subject: "Kindly verify",
           message, 
         });
-
         res.status(201).json({
             message: "Doc  created",
-            data:createDoc
+            data:createDoc,
         })
     }catch(err){
         res.status(400).json({

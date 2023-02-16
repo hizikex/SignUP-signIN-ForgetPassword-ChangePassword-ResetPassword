@@ -59,7 +59,6 @@ location: {
     
     proofOfId: {
         public_id: {
-            type: String,
              },
         url:{ type: String
         }},
