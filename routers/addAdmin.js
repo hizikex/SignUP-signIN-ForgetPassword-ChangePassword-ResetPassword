@@ -3,8 +3,9 @@ const express = require('express');
 // const {adminSignUp, adminLogIn, adminVerify, adminForgotPassword, adminResetPassword, adminChangePassword, allAdmins, oneAdmin, deleteAdmin, updateAdmin} = require('../controllers/addAdmin');
 const {userSignUp, userLogIn, verifyUser, UserResetPassword, UserLogOut, UserForgotPassword, allUsers, oneUser, deleteUser, updateUser} = require('../controllers/addUsers')
 const {newDoc, docVerify, docLogIn, docForgotPassword, docResetPassword, docLogout, allDoctors, oneDoctor, deleteDoctor, updateDoctor} = require('../controllers/addDoctor')
-const { addMessage, getMessages } = require("../controllers/messageController");
+const { specificMessage, patientMessage, sessionCreation } = require("../controllers/messageController");
 const { IsAdminAuth } = require('../utils/authorization');
+const { bookAppointment,viewAppointment } = require('../controllers/appointment');
 
 
 
@@ -34,11 +35,12 @@ Router.route('/verifyUser/:id').post(verifyUser)
 Router.route('/userforgotpassword').post(UserForgotPassword)
 Router.route('/userchangepassword/:id/:token').post(UserResetPassword)
 Router.route('/userlogOut').post(UserLogOut)
+Router.route('/bookappointment/:id').post(bookAppointment)
 
 //doctors routes
 Router.get('/alldoctors', IsAdminAuth, allDoctors)
 Router.get('/doctor', oneDoctor)
-Router.delete('/doctor', IsAdminAuth, deleteDoctor)
+Router.delete('/doctor',  IsAdminAuth, deleteDoctor)
 Router.patch('/doctors', updateDoctor)
 Router.route('/signup').post(newDoc)
 Router.route('/docVerify/:docid').post(docVerify)
@@ -46,10 +48,13 @@ Router.route('/doctorlogin').post(docLogIn)
 Router.route('/forgotpassword').post(docForgotPassword)
 Router.route("/changepassword/:id/:token").post(docResetPassword)
 Router.route('/logout').post(docLogout)
+Router.route('/viewappointments').get(viewAppointment)
 
 //message routes
-Router.post("/addmsg/", addMessage);
-Router.post("/getmsg/", getMessages);
+Router.post("/chat/:chatId/message", patientMessage);
+Router.route("/chat/:patientId/:doctorId").post(sessionCreation);
+Router.get("/chat/:chatId", specificMessage);
+
 
 
 module.exports = Router

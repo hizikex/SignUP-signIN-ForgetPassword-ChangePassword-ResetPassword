@@ -2,26 +2,31 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
-  senderP: {
+  patient: {
     type: Schema.Types.ObjectId,
-    ref: 'Patient',
+    ref: 'users',
   },
-  senderD: {
+  doctor: {
     type: Schema.Types.ObjectId,
-    ref: 'Doctor',
+    ref: 'doc',
   },
-  recieverP: {
-    type: Schema.Types.ObjectId,
-    ref: 'Patient',
-  },
-  recieverD: {
-    type: Schema.Types.ObjectId,
-    ref: 'Doctor',
-  },
-  message: { type: String,
+  messages: [
+    {
+      sender: {
+        type: String,
         required: true,
       },
-},{timestamp: true});
+      message: {
+        type: String,
+        required: true,
+      },
+      timestamp: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+},);
 
 const Messages = mongoose.model('Messages', messageSchema);
 

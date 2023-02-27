@@ -133,7 +133,7 @@ exports.UserForgotPassword = async (req, res) => {
             IsAdmin:userEmail.isAdmin},
             process.env.JWTTOKEN, {expiresIn: "1d"})
 
-        const VerifyLink = `${req.protocol}://${req.get("host")}/api/userchangepassword/${userEmail._id}/${myToken}`
+        const VerifyLink = `${req.protocol}://${req.get("host")}/api/#/verify/${userEmail._id}/${myToken}`
         const message = `Use this link ${VerifyLink} to change your password`;
         userSendEmail({
           email: userEmail.email,

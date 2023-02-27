@@ -11,7 +11,7 @@ exports.newDoc= async (req, res)=>{
     // const images = req.files.map(file => file.filename);
     const  {name, email,mobileNo,birthDate,gender,speciality,location,password} = req.body
     try{
-    const certificateUpload= await
+    const certificateUpload = await
            cloudinary.uploader.upload(
             req.files.certificateUpload.tempFilePath,
             (err, certificateUpload) => {
@@ -22,6 +22,7 @@ exports.newDoc= async (req, res)=>{
               }
             }
           );
+
 const license= await
 cloudinary.uploader.upload(
  req.files.license.tempFilePath,
@@ -282,6 +283,7 @@ exports.oneDoctor = async (req, res) => {
     }
 
 }
+
 
 exports.deleteDoctor = async (req, res) => {
     let id = req.params.id;

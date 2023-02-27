@@ -45,10 +45,8 @@ location: {
       certificateUpload:{
     public_id: {
         type: String,
-        required: [true, "Certificate mut be uploaded"],
          },
-    url:{ type: String,
-        required: [true, "Certificate mut be uploaded"]}},
+    url:{ type: String,}},
 
     license: {
         public_id: {
@@ -73,11 +71,7 @@ location: {
         type: Boolean,
         default: false
     },
-    sentMessages: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Messages'
-      }],
-      recievedMessages: [{
+    chatHistory: [{
         type: Schema.Types.ObjectId,
         ref: 'Messages'
       }],

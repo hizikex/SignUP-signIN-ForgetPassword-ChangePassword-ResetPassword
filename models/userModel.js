@@ -34,11 +34,7 @@ const userModel = new mongoose.Schema({
     //         url:{ type: String
     //         }
     // },
-    sentMessages: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Messages'
-      }],
-      recievedMessages: [{
+    chatHistory: [{
         type: Schema.Types.ObjectId,
         ref: 'Messages'
       }],
@@ -54,6 +50,15 @@ const userModel = new mongoose.Schema({
         default:false
 
     },
+    appointmentDate:  {
+        type:String,
+    },
+    appointmentTime:  {
+        type:String,
+    },
+    appointmentType: {
+        type: String
+    }
 },
 {
     timestamps:true
