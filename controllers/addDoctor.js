@@ -11,52 +11,52 @@ exports.newDoc= async (req, res)=>{
     // const images = req.files.map(file => file.filename);
     const  {name, email,mobileNo,birthDate,gender,speciality,location,password} = req.body
     try{
-    const certificateUpload = await
-           cloudinary.uploader.upload(
-            req.files.certificateUpload.tempFilePath,
-            (err, certificateUpload) => {
-              try {
-                return certificateUpload;
-              } catch (err) {
-                return err;
-              }
-            }
-          );
+//     const certificateUpload = await
+//            cloudinary.uploader.upload(
+//             req.files.certificateUpload.tempFilePath,
+//             (err, certificateUpload) => {
+//               try {
+//                 return certificateUpload;
+//               } catch (err) {
+//                 return err;
+//               }
+//             }
+//           );
 
-const license= await
-cloudinary.uploader.upload(
- req.files.license.tempFilePath,
- (err, license) => {
-   try {
-     return license;
-   } catch (err) {
-     return err;
-   }
-  }
-          );
+// const license= await
+// cloudinary.uploader.upload(
+//  req.files.license.tempFilePath,
+//  (err, license) => {
+//    try {
+//      return license;
+//    } catch (err) {
+//      return err;
+//    }
+//   }
+//           );
 
-const proofOfId= await
-cloudinary.uploader.upload(
- req.files.proofOfId.tempFilePath,
- (err, proofOfId) => {
-   try {
-     return proofOfId;
-   } catch (err) {
-     return err;
-   }
-  }
-          );
-const profilePic= await
-cloudinary.uploader.upload(
- req.files.profilePic.tempFilePath,
- (err, profilePic) => {
-   try {
-     return profilePic;
-   } catch (err) {
-     return err;
-   }
-  }
-          );
+// const proofOfId= await
+// cloudinary.uploader.upload(
+//  req.files.proofOfId.tempFilePath,
+//  (err, proofOfId) => {
+//    try {
+//      return proofOfId;
+//    } catch (err) {
+//      return err;
+//    }
+//   }
+//           );
+// const profilePic= await
+// cloudinary.uploader.upload(
+//  req.files.profilePic.tempFilePath,
+//  (err, profilePic) => {
+//    try {
+//      return profilePic;
+//    } catch (err) {
+//      return err;
+//    }
+//   }
+//           );
 
 const salt = bcryptjs.genSaltSync(10);
 const hash = bcryptjs.hashSync(password, salt);
@@ -70,27 +70,27 @@ const hash = bcryptjs.hashSync(password, salt);
         speciality,
         location,
         password:hash,
-        // confirmPassword:hash,
-        certificateUpload:
-        {
-            public_id:certificateUpload.public_id,
-            url:certificateUpload.secure_url
-        },
-        license:
-        {
-            public_id:license.public_id,
-            url:license
-        .secure_url
-        },
-        proofOfId:{
-            public_id:proofOfId.public_id,
-            url:proofOfId.secure_url
-        },
-        profilePic:
-        {
-            public_id:profilePic.public_id,
-            url:profilePic.secure_url
-        },
+        // // confirmPassword:hash,
+        // certificateUpload:
+        // {
+        //     public_id:certificateUpload.public_id,
+        //     url:certificateUpload.secure_url
+        // },
+        // license:
+        // {
+        //     public_id:license.public_id,
+        //     url:license
+        // .secure_url
+        // },
+        // proofOfId:{
+        //     public_id:proofOfId.public_id,
+        //     url:proofOfId.secure_url
+        // },
+        // profilePic:
+        // {
+        //     public_id:profilePic.public_id,
+        //     url:profilePic.secure_url
+        // },
         
       }
         const createDoc= new doc(data)

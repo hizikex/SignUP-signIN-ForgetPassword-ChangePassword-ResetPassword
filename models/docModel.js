@@ -48,25 +48,25 @@ location: {
          },
     url:{ type: String,}},
 
-    license: {
-        public_id: {
-            type: String,
-             },
-        url:{ type: String
-        }},
+    // license: {
+    //     public_id: {
+    //         type: String,
+    //          },
+    //     url:{ type: String
+    //     }},
     
-    proofOfId: {
-        public_id: {
-             },
-        url:{ type: String
-        }},
-    profilePic: {
-        public_id: {
-            type: String,
-             },
-        url:{ type: String
-        }
-    },
+    // proofOfId: {
+    //     public_id: {
+    //          },
+    //     url:{ type: String
+    //     }},
+    // profilePic: {
+    //     public_id: {
+    //         type: String,
+    //          },
+    //     url:{ type: String
+    //     }
+    // },
     isAdmin: {
         type: Boolean,
         default: false

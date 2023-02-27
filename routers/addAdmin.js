@@ -51,8 +51,8 @@ Router.route('/logout').post(docLogout)
 Router.route('/viewappointments').get(viewAppointment)
 
 //message routes
-Router.post("/chat/:chatId/message", patientMessage);
 Router.route("/chat/:patientId/:doctorId").post(sessionCreation);
+Router.post("/chat/:chatId/message", patientMessage);
 Router.get("/chat/:chatId", specificMessage);
 
 
