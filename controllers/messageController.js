@@ -103,7 +103,7 @@ exports.sessionCreation = async (req, res) => {
       res.status(404).send({ error: "Patient or doctor not found" });
     }
 
-    const chat = new Chat({
+    const chat = new Message({
       patient: patient._id,
       doctor: doctor._id,
     });
@@ -130,7 +130,7 @@ exports.sessionCreation = async (req, res) => {
 //router.post("/chat/:chatId/message", 
 exports.patientMessage = async (req, res) => {
   try {
-    const chat = await Chat.findById(req.params.chatId);
+    const chat = await Message.findById(req.params.chatId);
 
     if (!chat) {
       return res.status(404).json({
@@ -150,15 +150,42 @@ exports.patientMessage = async (req, res) => {
       });
   } catch (error) {
     res.status(500).json({
-       error: "Failed to add message to chat session" 
+       error: error.message 
       });
   }
 };
 
+//doctors message to patient
+exports.doctorMessage = async (req, res) => {
+  try {
+    const chat = await Message.findById(req.params.chatId);
+
+    if (!chat) {
+      return res.status(404).json({
+         error: "Chat session not found" 
+        });
+    }
+
+    chat.messages.push({
+      sender: req.body.sender,
+      message: req.body.message,
+    });
+
+    await chat.save();
+
+    res.status(200).json({
+       chat 
+      });
+  } catch (error) {
+    res.status(500).json({
+       error: error.message 
+      });
+  }
+};
 // Retrieve the chat history for a specific chat session
 exports.specificMessage = async (req, res) => {
   try {
-    const chat = await Chat.findById(req.params.chatId);
+    const chat = await Message.findById(req.params.chatId);
 
     if (!chat) {
       return res.status(404).json({

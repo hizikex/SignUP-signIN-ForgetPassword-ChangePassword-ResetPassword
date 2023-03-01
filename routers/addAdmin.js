@@ -3,7 +3,7 @@ const express = require('express');
 // const {adminSignUp, adminLogIn, adminVerify, adminForgotPassword, adminResetPassword, adminChangePassword, allAdmins, oneAdmin, deleteAdmin, updateAdmin} = require('../controllers/addAdmin');
 const {userSignUp, userLogIn, verifyUser, UserResetPassword, UserLogOut, UserForgotPassword, allUsers, oneUser, deleteUser, updateUser} = require('../controllers/addUsers')
 const {newDoc, docVerify, docLogIn, docForgotPassword, docResetPassword, docLogout, allDoctors, oneDoctor, deleteDoctor, updateDoctor} = require('../controllers/addDoctor')
-const { specificMessage, patientMessage, sessionCreation } = require("../controllers/messageController");
+const { specificMessage, patientMessage, sessionCreation, doctorMessage } = require("../controllers/messageController");
 const { IsAdminAuth } = require('../utils/authorization');
 const { bookAppointment,viewAppointment } = require('../controllers/appointment');
 
@@ -52,7 +52,8 @@ Router.route('/viewappointments').get(viewAppointment)
 
 //message routes
 Router.route("/chat/:patientId/:doctorId").post(sessionCreation);
-Router.post("/chat/:chatId/message", patientMessage);
+Router.post("/chatapp/:chatId/message", patientMessage);;
+Router.post("/chatapp/:chatId/message", doctorMessage);
 Router.get("/chat/:chatId", specificMessage);
 
 
