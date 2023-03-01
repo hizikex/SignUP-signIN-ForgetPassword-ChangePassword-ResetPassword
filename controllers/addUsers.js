@@ -48,7 +48,7 @@ exports.userSignUp = async(req,res) => {
 
         await createdUser.save()
 
-        const VerifyLink = `${req.protocol}://${req.get("host")}/api/verifyUser/${createdUser._id}`
+        const VerifyLink = `https://health-360-app.vercel.app/#/verify'`
         const message = `Thank you for registering with us. Please click on this link ${VerifyLink} to verify`;
         userSendEmail({
           email: createdUser.email,
@@ -200,7 +200,6 @@ exports.allUsers = async (req, res)=>{
         if (getAll) {
             res.status(200).json({
                 numberOfUsers: getAll.length,
-                message: "All users",
                     data: getAll
         })
         // console.log(getAll)
