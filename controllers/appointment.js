@@ -6,15 +6,15 @@ exports.bookAppointment=async(req,res)=>{
     const id=req.params.id
     
     try {const userAppointment = await user.findById(id);
-        const {appointmentDate, appointmentTime, appointmentType}=req.body
+        const {appointmentDate, appointmentTime, appointmentType,symptoms}=req.body
     const createUserAppointment=await user.findByIdAndUpdate(userAppointment._id,
-        {appointmentDate, appointmentTime,appointmentType},
+        {appointmentDate, appointmentTime,appointmentType,symptoms},
         {new : true }
         )
      
 
     res.status(200).json({
-        data:`your appointment is fixed for ${createUserAppointment.appointmentDate} by ${createUserAppointment.appointmentTime}`,
+        data:`your appointment is fixed for ${createUserAppointment.appointmentDate} by ${createUserAppointment.appointmentTime},with ${createUserAppointment.appointmentType}`,
         message:"appointment booked"
 
     });
@@ -32,7 +32,7 @@ exports.viewAppointment=async(req,res)=>{
     try {
         const date = new Date();
 
-        const day = date.getDate();
+        const day = date.getDay();
         const month = date.getMonth() + 1;
         const year = date.getFullYear();
         
@@ -40,7 +40,7 @@ exports.viewAppointment=async(req,res)=>{
         const currentDate = `${day}-0${month}-${year}`;
         
         const theDayAppointment=await user.find({appointmentDate:currentDate}).select([
-            "firstName", "lastName", "mobileNumber"
+            "name", "email", "mobileNo","dateOfBirth","appointmentType","symptoms"
         ])
        
 

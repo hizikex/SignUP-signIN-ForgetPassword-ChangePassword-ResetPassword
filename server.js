@@ -28,21 +28,71 @@ mongoose.connect(db, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(()=>{
-    console.log("MongooseDB connected")
-}).then(()=>{
-  app.listen(process.env.PORT || 5555, ()=>{
+    console.log("MongooseDATABASE connected")
+})
+const server = app.listen(process.env.PORT || 5555, ()=>{
     console.log("Server is listening to PORT: 5555")
 })
-})
 
-// const server =
 
-// const io = socket(server, {
-//     cors: {
-//       origin: "http://localhost:5555",
-//       credentials: true,
-//     },
-//   });
+const io = socket(server, {
+    cors: {
+      origin: "*",
+      credentials: true,
+    },
+  });
+
+  const dataB = mongoose.connection;
+
+  dataB.on("open", ()=>{
+    const observer = dataB.collection("users").watch();
+    observer.on("change", (change)=>{
+      if(change.operationType === 'insert'){
+        const userData = {
+          _id: change.fullDocument._id,
+          email: change.fullDocument.email 
+        }
+        io.emit("newUser", userData)
+        console.log(userData)
+      }
+    })
+  })
+
+  dataB.on("newchat", ()=>{
+  const messageObserver = dataB.collection("Messages").watch();
+  messageObserver.on("change", (change)=>{
+    if(change.operationType === 'insert'){
+      const messageData ={
+        patient: change.fullDocument.patient._id,
+        doctor: change.fullDocument.doctor._id,
+      }
+      io.emit("recieve-message", messageData)
+      console.log(messageData)
+    }
+  })
+});
+
+dataB.on("check", ()=>{
+    const observeDoctor = dataB.collection("doc").watch();
+    observeDoctor.on("change", (change)=>{
+      if(change.operationType === 'insert'){
+        const docData = {
+          _id: change.fullDocument._id,
+          email: change.fullDocument.email 
+        }
+        io.emit("newDoctor", docData)
+        console.log(docData)
+      }
+    })
+});
+
+  io.on("connection", (socket) => {
+
+      console.log('connected', socket.id)
+      socket.on("disconnect", ()=>{
+        console.log("disconected")
+      })
+    });
 
 // global.onlineUsers = new Map();
 // io.on("connection", (socket) => {

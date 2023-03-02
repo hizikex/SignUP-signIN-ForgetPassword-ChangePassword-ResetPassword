@@ -58,6 +58,13 @@ const userModel = new mongoose.Schema({
     },
     appointmentType: {
         type: String
+    },
+    appointmentStatus: {
+        type: Boolean,
+        default:false
+    },
+    symptoms: {
+        type: String
     }
 },
 {
