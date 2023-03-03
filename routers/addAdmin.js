@@ -5,14 +5,14 @@ const {userSignUp, userLogIn, verifyUser, UserResetPassword, UserLogOut, UserFor
 const {newDoc, docVerify, docLogIn, docForgotPassword, docResetPassword, docLogout, allDoctors, oneDoctor, deleteDoctor, updateDoctor} = require('../controllers/addDoctor')
 const { specificMessage, patientMessage, sessionCreation, doctorMessage } = require("../controllers/messageController");
 const { IsAdminAuth } = require('../utils/authorization');
-const { bookAppointment,viewAppointment } = require('../controllers/appointment');
+const { appointment,viewAppointment,acceptAppointment,docSelected } = require('../controllers/appointment');
 
 
 
 const Router = express.Router();
 
 //admin routes
-// Router.get('/alladmins', allAdmins)
+// Router.get('/alladmins', allAdmins) 
 // Router.get('/admin/:id', oneAdmin)
 // Router.delete('/admin/:id', deleteAdmin)
 // Router.patch('/admin/:id', updateAdmin)
@@ -35,8 +35,8 @@ Router.route('/verifyUser/:id').post(verifyUser)
 Router.route('/userforgotpassword').post(UserForgotPassword)
 Router.route('/userchangepassword/:id/:token').post(UserResetPassword)
 Router.route('/userlogOut').post(UserLogOut)
-Router.route('/bookappointment/:id').post(bookAppointment)
-
+// Router.route('/bookappointment/:id').post(bookAppointment)
+Router.route('/:id/bookappointment').post(appointment)
 //doctors routes
 Router.get('/alldoctors', IsAdminAuth, allDoctors)
 Router.get('/doctor', oneDoctor)
@@ -49,9 +49,12 @@ Router.route('/forgotpassword').post(docForgotPassword)
 Router.route("/changepassword/:id/:token").post(docResetPassword)
 Router.route('/logout').post(docLogout)
 Router.route('/viewappointments').get(viewAppointment)
-
+Router.route('/viewappointment').get(viewAppointment) 
+Router.route('/:id/myappointment').get(docSelected)
+Router.route('/:id/myappointment/acceptrequest').patch(acceptAppointment)
+/
 //message routes
-Router.route("/chat/:patientId/:doctorId").post(sessionCreation);
+Router.route("/chat/:patientId/:doctorId").post(sessionCreation);   
 Router.post("/chatapp/:chatId/message", patientMessage);;
 Router.post("/chatapp/:chatId/message", doctorMessage);
 Router.get("/chat/:chatId", specificMessage);

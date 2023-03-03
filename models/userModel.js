@@ -45,8 +45,8 @@ const userModel = new mongoose.Schema({
         type: Boolean,
         default:false
     },
-    isAdmin: {
-        type: Boolean,
+    pendingRequest: {
+        type: String,
         default:false
 
     },
@@ -57,6 +57,9 @@ const userModel = new mongoose.Schema({
         type:String,
     },
     appointmentType: {
+        type: String
+    },
+    bookDoctor: {
         type: String
     },
     appointmentStatus: {

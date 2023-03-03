@@ -58,20 +58,6 @@ const io = socket(server, {
     })
   })
 
-  dataB.on("newchat", ()=>{
-  const messageObserver = dataB.collection("Messages").watch();
-  messageObserver.on("change", (change)=>{
-    if(change.operationType === 'insert'){
-      const messageData ={
-        patient: change.fullDocument.patient._id,
-        doctor: change.fullDocument.doctor._id,
-      }
-      io.emit("recieve-message", messageData)
-      console.log(messageData)
-    }
-  })
-});
-
 dataB.on("check", ()=>{
     const observeDoctor = dataB.collection("doc").watch();
     observeDoctor.on("change", (change)=>{
@@ -86,8 +72,21 @@ dataB.on("check", ()=>{
     })
 });
 
-  io.on("connection", (socket) => {
+dataB.on("newchat", ()=>{
+    const messageObserver = dataB.collection("Messages").watch();
+    messageObserver.on("change", (change)=>{
+      if(change.operationType === 'insert'){
+        const messageData ={
+          patient: change.fullDocument.patient._id,
+          doctor: change.fullDocument.doctor._id,
+        }
+        io.emit("recieve-message", messageData)
+        console.log(messageData)
+      }
+    })
+  });
 
+  io.on("connection", (socket) => {
       console.log('connected', socket.id)
       socket.on("disconnect", ()=>{
         console.log("disconected")
