@@ -34,25 +34,27 @@ Router.route('/userlogIn').post(userLogIn)
 Router.route('/verifyUser/:id').post(verifyUser)
 Router.route('/userforgotpassword').post(UserForgotPassword)
 Router.route('/userchangepassword/:id/:token').post(UserResetPassword)
-Router.route('/userlogOut').post(UserLogOut)
+Router.route('/logout/:id').post(UserLogOut, docLogout)
 // Router.route('/bookappointment/:id').post(bookAppointment)
 Router.route('/:id/bookappointment').post(appointment)
+
+
 //doctors routes
 Router.get('/alldoctors', allDoctors)
 Router.get('/doctor/:id', oneDoctor)
-Router.delete('/doctor',  IsAdminAuth, deleteDoctor)
-Router.patch('/doctors', updateDoctor)
+Router.delete('/doctor/:id', deleteDoctor)
+Router.patch('/doctors/:id', updateDoctor)
 Router.route('/signup').post(newDoc)
 Router.route('/docVerify/:docid').post(docVerify)
 Router.route('/doctorlogin').post(docLogIn)
 Router.route('/forgotpassword').post(docForgotPassword)
 Router.route("/changepassword/:id/:token").post(docResetPassword)
-Router.route('/logout/:id').post(docLogout)
+// Router.route('/logout/:id').post(docLogout)
 Router.route('/viewappointments').get(viewAppointment)
 Router.route('/viewappointment').get(viewAppointment) 
 Router.route('/:id/myappointment').get(docSelected)
 Router.route('/:id/myappointment/acceptrequest').patch(acceptAppointment)
-/
+
 //message routes
 Router.route("/chat/:patientId/:doctorId").post(sessionCreation);   
 Router.post("/chatapp/:chatId/message", patientMessage);;
