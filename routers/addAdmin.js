@@ -39,7 +39,7 @@ Router.route('/userlogOut').post(UserLogOut)
 Router.route('/:id/bookappointment').post(appointment)
 //doctors routes
 Router.get('/alldoctors', allDoctors)
-Router.get('/doctor', oneDoctor)
+Router.get('/doctor/:id', oneDoctor)
 Router.delete('/doctor',  IsAdminAuth, deleteDoctor)
 Router.patch('/doctors', updateDoctor)
 Router.route('/signup').post(newDoc)
