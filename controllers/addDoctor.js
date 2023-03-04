@@ -273,12 +273,12 @@ exports.oneDoctor = async (req, res) => {
     if (aDoctor) {
         res.status(200).json({
             NumberOfDoctors: aDoctor.length,
-            message: "Doctor with ID" + id,
+            message: "Doctor with ID:  " + id,
             data: aDoctor
         })
     } else {
         res.status(404).json({
-            message: "Unable to find Doctor with ID" + id
+            message: "Unable to find Doctor with ID " + id
         })
     }
 
@@ -311,7 +311,7 @@ exports.updateDoctor = async (req, res) => {
         birthDate,
         gender,
         speciality,
-        speciality
+        location
     }
     const updatedDoctor = await doc.findByIdAndUpdate(id, data);
     if (updatedDoctor) {
