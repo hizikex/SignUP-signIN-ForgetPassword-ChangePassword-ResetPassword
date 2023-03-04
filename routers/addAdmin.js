@@ -38,7 +38,7 @@ Router.route('/userlogOut').post(UserLogOut)
 // Router.route('/bookappointment/:id').post(bookAppointment)
 Router.route('/:id/bookappointment').post(appointment)
 //doctors routes
-Router.get('/alldoctors', IsAdminAuth, allDoctors)
+Router.get('/alldoctors', allDoctors)
 Router.get('/doctor', oneDoctor)
 Router.delete('/doctor',  IsAdminAuth, deleteDoctor)
 Router.patch('/doctors', updateDoctor)

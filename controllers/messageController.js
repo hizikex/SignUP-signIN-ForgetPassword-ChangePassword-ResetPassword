@@ -6,10 +6,8 @@ const Doctor = require('../models/docModel');
 
 // exports.messageFromDoctor = async (req, res) => {
 //   try {
-//       // const senderPat = await Patient.findById(req.params.senderId);
 //       const senderDoc = await Doctor.findById(req.params.senderId);
 //       const receiverPat = await Patient.findById(req.params.receiverId);
-//       // const receiverDoc = await Doctor.findById(req.params.receiverId);
   
 //       if (!senderDoc || !receiverPat)
 //       res.status(404).json({
@@ -49,9 +47,6 @@ const Doctor = require('../models/docModel');
 // // create a new chat session
 // exports.messageFromPatient = async (req, res, next) =>{
 //   try {
-//     const id = req.params.id;
-//     const receiverId = req.params.receiverId;
-//     const senderPat = await Patient.findOne({id});
 //     // const senderDoc = await Doctor.findById(req.params.senderId);
 //     // const receiverPat = await Patient.findById(req.params.receiverId);
 //     const receiverDoc = await Doctor.findOne({receiverId});
@@ -117,6 +112,7 @@ exports.sessionCreation = async (req, res) => {
     await doctor.save();
 
     res.status(200).json({
+      message: "new session created",
       data: chat
     })
   } catch (error) {

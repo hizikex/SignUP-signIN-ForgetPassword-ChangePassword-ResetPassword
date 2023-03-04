@@ -252,11 +252,11 @@ exports.docLogout=async(req,res)=>{
 }
 
 exports.allDoctors = async (req, res) => {
-    const getAllDoctors = await doc.findOne();
+    const getAllDoctors = await doc.find();
     if (getAllDoctors) {
         res.status(200).json({
-            NumberOfDoctors: getAllDoctors.length,
-            message: "All doctors on the database",
+            totalDoctors: getAllDoctors.length,
+            message: "All doctors in the database",
             data: getAllDoctors
         })
     } else {

@@ -45,46 +45,62 @@ const io = socket(server, {
   const dataB = mongoose.connection;
 
   dataB.on("open", ()=>{
-    const observer = dataB.collection("users").watch();
-    observer.on("change", (change)=>{
-      if(change.operationType === 'insert'){
-        const userData = {
-          _id: change.fullDocument._id,
-          email: change.fullDocument.email 
-        }
-        io.emit("newUser", userData)
-        console.log(userData)
-      }
+    // const observer = dataB.collection("users").watch();
+    // observer.on("change", (change)=>{
+    //   if(change.operationType === 'insert'){
+    //     const userData = {
+    //       _id: change.fullDocument._id,
+    //       email: change.fullDocument.email 
+    //     }
+    //     io.emit("newUser", userData)
+    //     console.log(userData)
+    //   }
+    // })
+    const messageObserver = dataB.collection("messages").watch();
+    messageObserver.on("change", (change)=>{
+      console.log(change)
+    //   if(change.operationType === 'insert'){
+    //     // const messageData ={
+    //     //   patient: change.fullDocument.patient._id,
+    //     //   doctor: change.fullDocument.doctor._id,
+    //     // }
+    //     // io.emit("recieve-message", messageData)
+    //   //   console.log(messageData)
+    //   // console.log(change)
+    //   }
     })
   })
 
-dataB.on("check", ()=>{
-    const observeDoctor = dataB.collection("doc").watch();
-    observeDoctor.on("change", (change)=>{
-      if(change.operationType === 'insert'){
-        const docData = {
-          _id: change.fullDocument._id,
-          email: change.fullDocument.email 
-        }
-        io.emit("newDoctor", docData)
-        console.log(docData)
-      }
-    })
-});
+// dataB.on("check", ()=>{
+//     // const observeDoctor = dataB.collection("doc").watch();
+//     // observeDoctor.on("change", (change)=>{
+//     //   if(change.operationType === 'insert'){
+//     //     const docData = {
+//     //       _id: change.fullDocument._id,
+//     //       email: change.fullDocument.email 
+//     //     }
+//     //     io.emit("newDoctor", docData)
+//     //     console.log(docData)
+//     //   }
+//     // })
 
-dataB.on("newchat", ()=>{
-    const messageObserver = dataB.collection("Messages").watch();
-    messageObserver.on("change", (change)=>{
-      if(change.operationType === 'insert'){
-        const messageData ={
-          patient: change.fullDocument.patient._id,
-          doctor: change.fullDocument.doctor._id,
-        }
-        io.emit("recieve-message", messageData)
-        console.log(messageData)
-      }
-    })
-  });
+//     const messageObserver = dataB.collection("Messages").watch();
+//     messageObserver.on("change", (change)=>{
+//       console.log(change)
+//       // if(change.operationType === 'insert'){
+//       //   const messageData ={
+//       //     patient: change.fullDocument.patient._id,
+//       //     doctor: change.fullDocument.doctor._id,
+//       //   }
+//       //   io.emit("recieve-message", messageData)
+//       //   console.log(messageData)
+//       // }
+//     })
+// });
+
+// dataB.on("newchat", ()=>{
+
+  // });
 
   io.on("connection", (socket) => {
       console.log('connected', socket.id)
