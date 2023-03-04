@@ -1,5 +1,6 @@
 const doc = require("../models/docModel")
 const bcryptjs = require ('bcryptjs')
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const cloudinary=require("../utils/cloudinary")
 const docSendEmail = require('../utils/adminEmail')
@@ -153,8 +154,9 @@ exports.docLogIn = async(req,res) =>  {
     try{
         const {email,password} = req.body
         const check = await doc.findOne({email:email})
+        console.log(check)
         if(!check) return res.status(404).json({message:'Email not  registered'})
-        const isPassword =await bcryptjs.compare(password,check.password)
+        const isPassword =await bcrypt.compare(password,check.password)
         if(!isPassword) return res.status(404).json({message:'Email or password incorrect'})
 
         const myToken = jwt.sign({
@@ -232,13 +234,11 @@ exports.docResetPassword = async (req, res) => {
 exports.docLogout=async(req,res)=>{
     try {
         const id=req.params.id;
-        const {email,password}=req.body
+        const {email,password} = req.body
         const token=jwt.sign({
             id,
             email,
             password,
-            
-
         }, process.env.JWTDESTROY);
         doc.token=token 
         res.status(200).json(

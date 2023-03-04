@@ -60,11 +60,9 @@ exports.userSignUp = async(req,res) => {
             message: 'User created successfully',
             data:createdUser
         })
-
-
     }catch(e){
         res.status(400).json({
-            message:e.message
+            message: e.message
         })
     }
 }
@@ -76,6 +74,7 @@ exports.userLogIn = async(req,res) =>  {
     try{
         const {email,password} = req.body
         const check = await users.findOne({email:email})
+        console.log(check)
         if(!check) return res.status(404).json({message:'Email not  registered'})
         const isPassword =await bcrypt.compare(password,check.password)
         if(!isPassword) return res.status(404).json({message:'Email or password incorrect'})
@@ -233,6 +232,7 @@ exports.oneUser = async (req, res) => {
 }
 
 exports.deleteUser = async (req, res) => {
+try {
     let id = req.params.id;
     const deletedUser = await users.findByIdAndDelete(id);
     if (deletedUser) {
@@ -242,9 +242,14 @@ exports.deleteUser = async (req, res) => {
         })
     } else {
         res.status(404).json({
-            message: "Failed to delete user with ID " + id,
+            message: "User with ID: " + id + " not found",
         })
     }
+} catch (error) {
+    res.status(401).json({
+        message: error.message
+    })
+}
 
 }
 
