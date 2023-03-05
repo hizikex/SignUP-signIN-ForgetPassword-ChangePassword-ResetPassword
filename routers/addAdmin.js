@@ -2,12 +2,10 @@ const express = require('express');
 // const upload = require('../utils/cloudinary')
 // const {adminSignUp, adminLogIn, adminVerify, adminForgotPassword, adminResetPassword, adminChangePassword, allAdmins, oneAdmin, deleteAdmin, updateAdmin} = require('../controllers/addAdmin');
 const {userSignUp, userLogIn, verifyUser, UserResetPassword, UserLogOut, UserForgotPassword, allUsers, oneUser, deleteUser, updateUser} = require('../controllers/addUsers')
-const {newDoc, docVerify, docLogIn, docForgotPassword, docResetPassword, docLogout, allDoctors, oneDoctor, deleteDoctor, updateDoctor} = require('../controllers/addDoctor')
+const {newDoc, docVerify, docForgotPassword, docResetPassword, docLogout, allDoctors, oneDoctor, deleteDoctor, updateDoctor, docLogin} = require('../controllers/addDoctor')
 const { specificMessage, patientMessage, sessionCreation, doctorMessage } = require("../controllers/messageController");
 const { IsAdminAuth } = require('../utils/authorization');
 const { appointment,viewAppointment,acceptAppointment,docSelected } = require('../controllers/appointment');
-
-
 
 const Router = express.Router();
 
@@ -30,7 +28,7 @@ Router.delete('/user/:id', deleteUser)
 Router.patch('/user/:id', updateUser)
 Router.route('/allusers').get(allUsers)
 Router.route('/usersignUp').post(userSignUp)
-Router.route('/login').post(userLogIn, docLogIn)
+Router.route('/login').post(userLogIn)
 Router.route('/verifyUser/:id').post(verifyUser)
 Router.route('/userforgotpassword').post(UserForgotPassword)
 Router.route('/userchangepassword/:id/:token').post(UserResetPassword)
@@ -46,7 +44,7 @@ Router.delete('/doctor/:id', deleteDoctor)
 Router.patch('/doctors/:id', updateDoctor)
 Router.route('/signup').post(newDoc)
 Router.route('/docVerify/:docid').post(docVerify)
-Router.route('/doctorlogin').post(docLogIn)
+Router.route('/doctorlogin').post(docLogin)
 Router.route('/forgotpassword').post(docForgotPassword)
 Router.route("/changepassword/:id/:token").post(docResetPassword)
 // Router.route('/logout/:id').post(docLogout)

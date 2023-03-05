@@ -150,32 +150,67 @@ exports.docVerify = async (req, res) => {
 }
 
 
-exports.docLogIn = async(req,res) =>  {
-    try{
-        const {email,password} = req.body
-        const check = await doc.findOne({email:email})
-        console.log(check)
-        if(!check) return res.status(404).json({message:'Email not  registered'})
-        const isPassword =await bcrypt.compare(password,check.password)
-        if(!isPassword) return res.status(404).json({message:'Email or password incorrect'})
+// exports.doctorLogin = async(req,res) =>  {
+//     try{
+//         const {email} = req.body
+//         const check = await doc.findOne({email:email})
+//         console.log(check)
+//         if(!check) return res.status(404).json({message:'Email not  registered'})
+//         const isPassword =await bcrypt.compare(req.body.password, check.password)
+//         if(!isPassword) return res.status(404).json({message:'Email or password incorrect'})
 
-        const myToken = jwt.sign({
-            id:check._id,
-            password: check.password}, process.env.JWTTOKEN, {expiresIn: "1d"})
+//         const myToken = jwt.sign({
+//             id:check._id,
+//             password: check.password}, process.env.JWTTOKEN, {expiresIn: "1d"})
 
-        check.token = myToken 
-        await check.save()
-         res.status(201).json({
-            message:"Successful",
-            data:check
-         })
-    }catch(e){
+//         check.token = myToken 
+//         await check.save()
+//         const { password, ...others } = check._doc
+//          res.status(201).json({
+//             message:"Successful",
+//             data: others
+//          })
+//     }catch(e){
+//         res.status(400).json({
+//             message:e.message
+//         })
+//     }
+// }
+
+exports.docLogin = async (req, res) => {
+    try {
+        const {email} = req.body;
+        const checkEmail = await doc.findOne({email: email});
+        console.log(checkEmail);
+        if (!checkEmail)
+            return res.status(404).json({
+                message: "User Email Not Found"
+            })
+        const isPassword = await bcrypt.compare(req.body.password, checkEmail.password)
+        if (!isPassword) 
+            return res.status(404).json({
+                message: "Wrong Password"
+            })
+
+            const generateToken = jwt.sign({
+                id: checkEmail._id,
+                password: checkEmail.password
+            }, process.env.JWTTOKEN, {
+                expiresIn: "12h"
+            })
+            checkEmail.token = generateToken
+            await checkEmail.save()
+            const {password, ...others} = checkEmail._doc
+            res.status(200).json({
+                message: "Successfully Logged In",
+                data: others
+            })
+    } catch( error) {
         res.status(400).json({
-            message:e.message
+            message: error.message
         })
     }
 }
-
 
 exports.docForgotPassword = async (req, res) => {
     try{
