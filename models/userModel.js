@@ -27,6 +27,10 @@ const userModel = new mongoose.Schema({
         type: String,
         required: [true, 'Password is required']
     },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
     // profilePicture: {
     //     public_id: {
     //         type: String,
