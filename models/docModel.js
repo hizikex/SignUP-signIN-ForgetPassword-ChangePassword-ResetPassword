@@ -36,6 +36,10 @@ location: {
         type: String,
         required: [true, "Password is required"],
     },
+    // admin: {
+    //     type: String,
+    //     default: true
+    // },
     //   confirmPassword: {
     //     type: String,
     //     required: [true, "Confirm Password is required"],
@@ -69,7 +73,7 @@ location: {
     // },
     isAdmin: {
         type: Boolean,
-        default: false
+        default: true
     },
     chatHistory: [{
         type: Schema.Types.ObjectId,
