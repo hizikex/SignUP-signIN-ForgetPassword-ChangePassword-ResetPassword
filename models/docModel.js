@@ -12,9 +12,18 @@ name: {
         required: [true, "Email is required"],
         unique: true
     },
+        sentMessages: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Messages'
+      }],
+      recievedMessages: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Messages'
+      }],
     mobileNo: {
         type: String,
-        required: [true, "Phone number is required"]
+        required: [true, "Phone number is required"],
+        unique: true
     },
  birthDate: {
         type: String,
@@ -28,6 +37,10 @@ gender: {
         type: String,
         required: [true, "speciality is required"]
     },
+    admin: {
+        type: String,
+        default: true
+    },
 location: {
         type: String,
         required: [true, "location is required"]
@@ -35,10 +48,6 @@ location: {
    password: {
         type: String,
         required: [true, "Password is required"],
-    },
-    admin: {
-        type: String,
-        default: true
     },
     //   confirmPassword: {
     //     type: String,
@@ -71,9 +80,9 @@ location: {
     //     url:{ type: String
     //     }
     // },
-    chatHistory: [{
+    bookAppointment: [{
         type: Schema.Types.ObjectId,
-        ref: 'Messages'
+        ref:'appointment'
       }],
     token: {
         type: String,

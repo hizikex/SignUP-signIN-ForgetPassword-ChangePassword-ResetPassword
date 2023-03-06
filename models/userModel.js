@@ -13,12 +13,21 @@ const userModel = new mongoose.Schema({
     },
     mobileNo: {
         type: String,
-        required: [true, 'mobileNumber is required']
+        required: [true, 'mobileNumber is required'],
+        unique: true
     },
     dateOfBirth:{
         type: String,
         required:[true, 'dateOfBirth is required']
     },
+    sentMessages: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Messages'
+      }],
+      recievedMessages: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Messages'
+      }],
     gender: {
         type: String,
         required: [true, 'Gender is required']
@@ -31,6 +40,10 @@ const userModel = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    bookAppointment: [{
+        type: Schema.Types.ObjectId,
+        ref: 'appointment'
+      }],
     // profilePicture: {
     //     public_id: {
     //         type: String,
@@ -38,10 +51,6 @@ const userModel = new mongoose.Schema({
     //         url:{ type: String
     //         }
     // },
-    chatHistory: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Messages'
-      }],
     token: {
         type: String,
     },
@@ -63,7 +72,7 @@ const userModel = new mongoose.Schema({
     appointmentType: {
         type: String
     },
-    bookDoctor: {
+    bookDoctor:{
         type: String
     },
     appointmentStatus: {

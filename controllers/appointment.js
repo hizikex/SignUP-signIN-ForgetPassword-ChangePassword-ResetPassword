@@ -4,27 +4,26 @@ const userSendEmail = require('../utils/adminEmail');
 const moment=require("moment")
 //user  appointment
 exports.appointment=async(req,res)=>{
-    const id=req.params.id
-    const doctorWithId=req.body.bookDoctor
-    try {const userAppointment = await user.findById(id);
-         const selectDoc=await doc.findOne().where({_id:doctorWithId}).select([
+    const userId=req.params.userId
+    const docId=req.params.docId
+    // const doctorWithId=req.body.bookDoctor
+    try {const userAppointment = await user.findById(userId);
+        
+         const selectDoc=await doc.findOne().where({_id:docId}).select([
             "id","email","name"
          ]);
+         console.log(selectDoc)
         const {appointmentDate,appointmentTime, appointmentType}=req.body
       
         // console.log(selectDoc)  
          
-    const createUserAppointment=await user.findByIdAndUpdate(userAppointment._id,
+    const createUserAppointment=await user.findByIdAndUpdate(userAppointment,
         {appointmentDate, 
         appointmentTime,
         appointmentType,
-        bookDoctor:selectDoc.id
-
-        },
-        {new : true } 
+        bookDoctor:docId }
         ) 
-     
-
+    
     res.status(200).json({
         data:`you have fixed an appointment for ${createUserAppointment.appointmentDate} by ${createUserAppointment.appointmentTime} with Doctor ${selectDoc.name}`,
         message:`appointment booked with ${selectDoc.name},kindly check back for approval`
