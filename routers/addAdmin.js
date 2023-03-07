@@ -3,9 +3,9 @@ const express = require('express');
 // const {adminSignUp, adminLogIn, adminVerify, adminForgotPassword, adminResetPassword, adminChangePassword, allAdmins, oneAdmin, deleteAdmin, updateAdmin} = require('../controllers/addAdmin');
 const {userSignUp, userLogIn, verifyUser, UserResetPassword, UserLogOut, UserForgotPassword, allUsers, oneUser, deleteUser, updateUser} = require('../controllers/addUsers')
 const {newDoc, docVerify, docForgotPassword, docResetPassword, docLogout, allDoctors, oneDoctor, deleteDoctor, updateDoctor, docLogin} = require('../controllers/addDoctor')
-const { messageFromDoctor, messageFromPatient } = require("../controllers/messageController");
+const { messageFromDoctor, messageFromPatient, getChat } = require("../controllers/messageController");
 const { IsAdminAuth } = require('../utils/authorization');
-// const { appointment,viewAppointment,acceptAppointment,docSelected } = require('../controllers/appointment');
+ const { appointment,viewAppointment,acceptAppointment,docSelected } = require('../controllers/appointment');
 
 const Router = express.Router();
 
@@ -34,7 +34,7 @@ Router.route('/userforgotpassword').post(UserForgotPassword)
 Router.route('/userchangepassword/:id/:token').post(UserResetPassword)
 Router.route('/logout/:id').post(UserLogOut, docLogout)
 // Router.route('/bookappointment/:id').post(bookAppointment)
-// Router.route('/:userId/:docId/bookappointment').post(appointment)
+Router.route('/:userId/:docId/bookappointment').post(appointment)
 
 
 //doctors routes
@@ -56,6 +56,7 @@ Router.route("/changepassword/:id/:token").post(docResetPassword)
 //message routes
 Router.post("/chatapp/:doctorId/:patientId", messageFromDoctor);
 Router.post("/chat/:patientId/:doctorId", messageFromPatient);
+Router.route("/chat/:patientId/:doctorId").get(getChat);
 
 
 // Router.route("/chat/:patientId/:doctorId").post(sessionCreation);

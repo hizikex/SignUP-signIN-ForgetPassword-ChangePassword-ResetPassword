@@ -88,6 +88,86 @@ exports.messageFromPatient = async (req, res, next) =>{
   }
 }
 
+// exports.getMessages = async (req, res, next) =>{
+//   try {
+//     const patientId = req.params.patientId;
+//     const doctorId = req.params.doctorId;
+//     const senderPat = await Patient.findById(patientId);
+//     const receiverDoc = await Doctor.findById(doctorId);
+
+//   } catch (err) {
+//     res.status(400).json({
+//       message: err.message
+//     })
+//   }
+// }
+
+// exports.getChat = async (req, res) => {
+//   try {
+//     const doctorId = req.params.doctorId;
+//     const patientId = req.params.patientId;
+//     const chat = await Message.find({
+//       doctor: doctorId,
+//       patient: patientId,
+//     }).where("senderP").equals(`${patientId}`)
+//     .where("senderD").equals(`${doctorId}`)
+//     // .populate('senderD', 'name email') // populate senderP field with name and email
+//     // .populate('recieverP', 'name email') // populate recieverD field with firstName and email
+//     // .exec();
+
+//     // .where({senderP: patientId});
+//     //  {recieverP: patientId}, {senderP: patientId}, {recieverD: doctorId});
+//     // populate('senderP');
+// console.log(chat)
+//     if (!chat) 
+//       return res.status(404).json({
+//         error: 'No messages found',
+//       });
+
+//     res.status(200).json({
+//       message: "Chat record",
+//       data: chat
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       error: error.message,
+//     });
+//   }
+// };
+
+exports.getChat = async (req, res, next) => {
+  try {
+    const patientId = req.params.patientId;
+    const doctorId = req.params.doctorId;
+
+    const messages = await Message.find({
+      $or: [
+        { senderP: patientId, recieverD: doctorId },
+        { senderD: doctorId, recieverP: patientId }
+      ]
+    })
+    .populate('senderP', 'name email') // populate senderP field with name and email
+    .populate('recieverP', 'name email') // populate recieverD field with name and email
+    .exec();
+
+    if (messages.length === 0) {
+      res.status(404).json({
+        message: "No messages found"
+      });
+    } else {
+      res.status(200).json({
+        message: "Messages retrieved successfully",
+        data: messages
+      });
+    }
+  } catch (err) {
+    res.status(400).json({
+      message: err.message
+    });
+  }
+};
+
+
 //router.post("/chat/:patientId/:doctorId", 
 // Create a new chat session
 // exports.sessionCreation = async (req, res) => {
