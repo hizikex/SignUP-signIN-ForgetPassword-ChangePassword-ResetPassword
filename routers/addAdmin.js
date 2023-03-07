@@ -47,11 +47,11 @@ Router.route('/docVerify/:docid').post(docVerify)
 Router.route('/doctorlogin').post(docLogin)
 Router.route('/forgotpassword').post(docForgotPassword)
 Router.route("/changepassword/:id/:token").post(docResetPassword)
-// Router.route('/logout/:id').post(docLogout)
-// Router.route('/viewappointments').get(viewAppointment)
+Router.route('/logout/:id').post(docLogout)
+Router.route('/viewappointments').get(viewAppointment)
 // Router.route('/viewappointment').get(viewAppointment) 
-// Router.route('/:id/myappointment').get(docSelected)
-// Router.route('/:id/myappointment/acceptrequest').patch(acceptAppointment)
+Router.route('/:id/myappointment').get(docSelected)
+Router.route('/:id/myappointment/acceptrequest').patch(acceptAppointment)
 
 //message routes
 Router.post("/chatapp/:doctorId/:patientId", messageFromDoctor);
