@@ -59,15 +59,15 @@ const io = socket(server, {
     const messageObserver = dataB.collection("messages").watch();
     messageObserver.on("change", (change)=>{
       console.log(change)
-    //   if(change.operationType === 'insert'){
-    //     // const messageData ={
-    //     //   patient: change.fullDocument.patient._id,
-    //     //   doctor: change.fullDocument.doctor._id,
-    //     // }
-    //     // io.emit("recieve-message", messageData)
-    //   //   console.log(messageData)
-    //   // console.log(change)
-    //   }
+      if(change.operationType === 'insert'){
+        const messageData ={
+          patient: change.fullDocument.patient._id,
+          doctor: change.fullDocument.doctor._id,
+        }
+        io.emit("recieve-message", messageData)
+      //   console.log(messageData)
+      // console.log(change)
+      }
     })
   })
 
