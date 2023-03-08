@@ -29,22 +29,24 @@ mongoose.connect(db, {
     useUnifiedTopology: true
 }).then(()=>{
     console.log("MongooseDATABASE connected")
-})
-const server = app.listen(process.env.PORT || 5555, ()=>{
+}).then(()=>{
+  app.listen(process.env.PORT || 5555, ()=>{
     console.log("Server is listening to PORT: 5555")
 })
+})
 
 
-const io = socket(server, {
-    cors: {
-      origin: "*",
-      credentials: true,
-    },
-  });
 
-  const dataB = mongoose.connection;
+// const io = socket(server, {
+//     cors: {
+//       origin: "*",
+//       credentials: true,
+//     },
+//   });
 
-  dataB.on("open", ()=>{
+//   const dataB = mongoose.connection;
+
+//   dataB.on("open", ()=>{
     // const observer = dataB.collection("users").watch();
     // observer.on("change", (change)=>{
     //   if(change.operationType === 'insert'){
@@ -56,20 +58,20 @@ const io = socket(server, {
     //     console.log(userData)
     //   }
     // })
-    const messageObserver = dataB.collection("messages").watch();
-    messageObserver.on("change", (change)=>{
-      console.log(change)
-      if(change.operationType === 'insert'){
-        const messageData ={
-          patient: change.fullDocument.patient._id,
-          doctor: change.fullDocument.doctor._id,
-        }
-        io.emit("recieve-message", messageData)
-      //   console.log(messageData)
-      // console.log(change)
-      }
-    })
-  })
+  //   const messageObserver = dataB.collection("messages").watch();
+  //   messageObserver.on("change", (change)=>{
+  //     console.log(change)
+  //     if(change.operationType === 'insert'){
+  //       const messageData ={
+  //         patient: change.fullDocument.patient._id,
+  //         doctor: change.fullDocument.doctor._id,
+  //       }
+  //       io.emit("recieve-message", messageData)
+  //       console.log(messageData)
+  //     // console.log(change)
+  //     }
+  //   })
+  // })
 
 // dataB.on("check", ()=>{
 //     // const observeDoctor = dataB.collection("doc").watch();
@@ -102,12 +104,12 @@ const io = socket(server, {
 
   // });
 
-  io.on("connection", (socket) => {
-      console.log('connected', socket.id)
-      socket.on("disconnect", ()=>{
-        console.log("disconected")
-      })
-    });
+  // io.on("connection", (socket) => {
+  //     console.log('connected', socket.id)
+  //     socket.on("disconnect", ()=>{
+  //       console.log("disconected")
+  //     })
+  //   });
 
 // global.onlineUsers = new Map();
 // io.on("connection", (socket) => {
