@@ -59,7 +59,7 @@ exports.viewAppointment=async(req,res)=>{
         // console.log(currentDate)
 
       
-        const theDayAppointment=await user.find().where({appointmentDate:currentDate }).select([
+        const theDayAppointment=await user.find().where(appointmentDate).select([
             "name", "email", "mobileNo","appointmentType"
         ])
        
@@ -110,10 +110,11 @@ exports.docSelected=async(req,res)=>{
     
 
     try {
-    const currentDate =moment().format("YYYY-MM-DD")  
-  const theDayAppointment=await user.find().where({appointmentDate:currentDate ,bookDoctor:req.params.id}).select([
+    // const currentDate =moment().format("YYYY-MM-DD")  
+  const theDayAppointment=await user.find().where({bookDoctor:req.params.id}).select([
             "name", "email", "mobileNo","appointmentDate","appointmentTime","appointmentType"
         ])
+        console.log(theDayAppointment)
 const id=req.params.id
              const selectDoc=await doc.findOne().where({_id:id}).select([
                 "id","email","name"
@@ -124,17 +125,17 @@ const id=req.params.id
         })
 
 
-        const sendId=req.body.id
+        // const sendId=req.body.id
     
     
-        const userAppointment = await user.findOne().where({id:sendId});
+        // const userAppointment = await user.findOne().where({id:sendId});
 
-        const message = `Hello, ${userAppointment.name},your appointment has been approved with ,kindly be at alert and be punctual ${selectDoc.name}`;
-        userSendEmail({
-          email:userAppointment.email ,
-          subject: "Appointment booked",
-          message,
-        });
+        // const message = `Hello, ${userAppointment.name},your appointment has been approved with ,kindly be at alert and be punctual ${selectDoc.name}`;
+        // userSendEmail({
+        //   email:userAppointment.email ,
+        //   subject: "Appointment booked",
+        //   message,
+        // });
           
     }catch (error) {res.status(404).json({message:"cant view appointment"}) 
         
