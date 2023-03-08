@@ -129,7 +129,7 @@ const id=req.params.id
     
         const userAppointment = await user.findOne().where({id:sendId});
 
-        const message = `Hello, ${userAppointment.name},your appointment has been approved with ${selectDoc.name}`;
+        const message = `Hello, ${userAppointment.name},your appointment has been approved with ,kindly be at alert ${selectDoc.name}`;
         userSendEmail({
           email:userAppointment.email ,
           subject: "Appointment booked",
