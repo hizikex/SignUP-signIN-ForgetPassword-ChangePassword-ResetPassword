@@ -42,7 +42,7 @@ exports.viewAppointment=async(req,res)=>{
 
     try {
         // const date = new Date();
-
+""
         // const day=date.getDate( );
         // // const newday=(day)=>{  if(day.length==1){ "0"+day}}
       
@@ -51,7 +51,7 @@ exports.viewAppointment=async(req,res)=>{
         // const year = date.getFullYear(); 
        
         
-        const currentDate =moment().format('DD-MM-YYYY')  
+        const currentDate =moment().format("YYYY-MM-DD")  
         //  `${newday()}-0${month}-${year}`; 
        
         // const currentDate2= `0${day}-0${month}-${year}` ;
@@ -110,7 +110,7 @@ exports.docSelected=async(req,res)=>{
     
 
     try {
-    const currentDate =moment().format('DD-MM-YYYY')  
+    const currentDate =moment().format("YYYY-MM-DD")  
   const theDayAppointment=await user.find().where({appointmentDate:currentDate ,bookDoctor:req.params.id}).select([
             "name", "email", "mobileNo","appointmentDate","appointmentTime","appointmentType"
         ])
