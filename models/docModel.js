@@ -52,7 +52,7 @@ location: {
     //   confirmPassword: {
     //     type: String,
     //     required: [true, "Confirm Password is required"],
-    // },
+    //   },
 
 
       certificateUpload:{
